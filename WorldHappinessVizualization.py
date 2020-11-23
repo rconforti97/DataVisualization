@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 
+
 fig = go.Figure()
 
 # Load CSV file from Datasets folder
@@ -45,38 +46,41 @@ fig.update_layout(
 )
 app = dash.Dash()
 
+
 YEARS = [2018, 2019]
 # Layout of the Dashboard
 app.layout = html.Div(children=[
     html.H1(children='World Happiness Dash',
             style={
                 'textAlign': 'center',
-                'color': '#ED553B'
+                'color': '#C70039',
+                'font-family': 'Courier New'
             }
             ),
     # Title of the Website at the top
-    html.Div('Web dashboard for Data Visualization of World Happiness', style={'textAlign': 'center'}),
+    html.Div('Web dashboard for Data Visualization of World Happiness', style={'textAlign': 'center',   'font-family': 'Courier New'}),
     # Subtitle at the top
-    html.Div('World Happiness Based by Region', style={'textAlign': 'center'}),
+    html.Div('World Happiness Based by Region', style={'textAlign': 'center', 'font-family': 'Courier New'}),
     html.Br(),
     html.Br(),
-    html.Hr(),
+    html.Hr(style={'border-top': 'dashed #C70039'}),
 
     # Having the Cholorpleth show on the dash board
-    html.H3('Cloropleth Chart'),
-    html.Div('This shows a world overview of happiness scores'),
+    html.H3('Cloropleth Chart', style= {'font-family': 'Courier New'}),
+    html.Div('This shows a world overview of happiness scores', style= {'font-family': 'Courier New'}),
     dcc.Graph(id="Choropleth", figure=fig),
 
     # Start of Interactive Bar Chart Start
-    html.H3('Interactive Bar chart'),
+    html.H3('Interactive Bar chart', style= {'font-family': 'Courier New'}),
     html.Div('This bar chart represent the reported world happiness by region and year as well as '
-             'what contributed to the score'),
+             'what contributed to the score', style= {'font-family': 'Courier New'}),
     # Creating the Interactive Bar Chart onto the dash board
     dcc.Graph(id='graph1', style={'background': '#544F4F'}),
     # Drop down box title
-    html.Div('Please select a region', style={'color': '#000000', 'margin': '10px'}),
+    html.Div('Please select a region', style={'color': '#000000', 'margin': '10px', 'font-family': 'Courier New'}),
     # Dropdown Menu for Stacked Bar Chart
     dcc.Dropdown(
+        style= {'font-family': 'Courier New'},
         id='select-region',
         options=[
             {'label': 'Australia and New Zealand', 'value': 'Australia and New Zealand'},
@@ -100,6 +104,7 @@ app.layout = html.Div(children=[
                 id="slider-container",
                 children=[
                     html.P(
+                        style= {'font-family': 'Courier New'},
                         id="slider-text",
                         children="Drag the slider to change the year:",
                     ),
