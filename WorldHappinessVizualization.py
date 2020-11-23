@@ -163,7 +163,7 @@ def update_figure(selected_region):
 
 # This is to update the choropleth
 @app.callback(Output('Choropleth', 'figure'),
-              [Input('years-slider', "year")])
+              [Input('years-slider', "value")])
 def update_Choropleth(selected_year):
     # Adjusts the DF for the data
     if selected_year == 2018:
@@ -205,8 +205,7 @@ def update_Choropleth(selected_year):
     )
 
     # This large return may actually update the choropleth
-    return {
-    }
+    return fig
 
 
 if __name__ == '__main__':
