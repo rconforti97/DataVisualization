@@ -17,7 +17,7 @@ fig = go.Figure(data=go.Choropleth(
     locations=df1['Country'],
     z=df1['Score'],
     text=df1['Country'],
-    colorscale='Greens',
+    colorscale='sunset',
     autocolorscale=False,
     reversescale=True,
     marker_line_color='darkgray',
@@ -54,18 +54,27 @@ app.layout = html.Div(children=[
                 'color': '#ED553B'
             }
             ),
+    # Title of the Website at the top
     html.Div('Web dashboard for Data Visualization of World Happiness', style={'textAlign': 'center'}),
+    # Subtitle at the top
     html.Div('World Happiness Based by Region', style={'textAlign': 'center'}),
     html.Br(),
     html.Br(),
     html.Hr(),
 
+    # Having the Cholorpleth show on the dash board
+    html.H3('Cloropleth Chart'),
+    html.Div('This shows a world overview of happiness scores'),
+    dcc.Graph(id="Choropleth", figure=fig),
+
     # Start of Interactive Bar Chart Start
     html.H3('Interactive Bar chart'),
     html.Div('This bar chart represent the reported world happiness by region and year as well as '
              'what contributed to the score'),
+    # Creating the Interactive Bar Chart onto the dash board
     dcc.Graph(id='graph1', figure=fig, style={'background': '#544F4F'}),
-    html.Div('Please select a region', style={'color': '#ef3e18', 'margin': '10px'}),
+    # Drop down box title
+    html.Div('Please select a region', style={'color': '#000000', 'margin': '10px'}),
     # Dropdown Menu for Stacked Bar Chart
     dcc.Dropdown(
         id='select-region',
@@ -83,7 +92,6 @@ app.layout = html.Div(children=[
         ],
         value='Central and Eastern Europe'
     ),
-    dcc.Graph(id="Choropleth", figure=fig),
     # Slider
     html.Div(
         id="left-column",
@@ -119,8 +127,7 @@ app.layout = html.Div(children=[
 
 # Call Back to change the Stacked Bar Chart
 @app.callback(Output('graph1', 'figure'),
-              [Input('select-region', "value"),
-               Input('years-slider', "value")])
+              [Input('select-region', "value")])
 def update_figure(selected_region):
     stackbarchart_df = df1[df1['Region'] == selected_region]
 
@@ -134,24 +141,23 @@ def update_figure(selected_region):
     stackbarchart_df = stackbarchart_df.sort_values(by=['Overall rank'], ascending=[False]).reset_index()
 
     trace1_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['GDP per capita'],
-                                  name='Economy', marker={'color': '#173F5F'})
+                                  name='Economy', marker={'color': '#7B0000'})
 
     trace2_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Social support'],
-                                  name='Social support', marker={'color': '#20639B'})
+                                  name='Social support', marker={'color': '#D53C00'})
 
     trace3_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Healthy life expectancy'],
-                                  name='Healthy life expectancy', marker={'color': '#3CAEA3'})
+                                  name='Healthy life expectancy', marker={'color': '#FF8700'})
 
     trace4_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Freedom to make life choices'],
-                                  name='Freedom', marker={'color': '#F6D55C'})
+                                  name='Freedom', marker={'color': '#F5BD1F'})
 
     trace5_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Generosity'],
                                   name='Generosity',
-                                  marker={'color': '#ED553B'})
+                                  marker={'color': '#FFD93D'})
 
-    # Change this color....
     trace6_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Perceptions of corruption'],
-                                  name='Perceptions of corruption', marker={'color': '#ED553B'})
+                                  name='Perceptions of corruption', marker={'color': '#EDFF74'})
 
     data_stackbarchart = [trace1_stackbarchart, trace2_stackbarchart, trace3_stackbarchart, trace4_stackbarchart,
                           trace5_stackbarchart, trace6_stackbarchart]
@@ -178,7 +184,7 @@ def update_Choropleth(selected_year):
         locations=new_df['Country'],
         z=new_df['Score'],
         text=new_df['Country'],
-        colorscale='Greens',
+        colorscale='sunset',
         autocolorscale=False,
         reversescale=True,
         marker_line_color='darkgray',
