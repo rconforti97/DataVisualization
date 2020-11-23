@@ -72,7 +72,7 @@ app.layout = html.Div(children=[
     html.Div('This bar chart represent the reported world happiness by region and year as well as '
              'what contributed to the score'),
     # Creating the Interactive Bar Chart onto the dash board
-    dcc.Graph(id='graph1', figure=fig, style={'background': '#544F4F'}),
+    dcc.Graph(id='graph1', style={'background': '#544F4F'}),
     # Drop down box title
     html.Div('Please select a region', style={'color': '#000000', 'margin': '10px'}),
     # Dropdown Menu for Stacked Bar Chart
@@ -127,9 +127,15 @@ app.layout = html.Div(children=[
 
 # Call Back to change the Stacked Bar Chart
 @app.callback(Output('graph1', 'figure'),
-              [Input('select-region', "value")])
-def update_figure(selected_region):
-    stackbarchart_df = df1[df1['Region'] == selected_region]
+              [Input('select-region', "value"),
+               Input('years-slider', "value")])
+def update_figure(selected_region, selected_year):
+    if selected_year == 2018:
+        new_df = pd.read_csv('2018.csv')
+    else:
+        new_df = pd.read_csv('2019.csv')
+
+    stackbarchart_df = new_df[new_df['Region'] == selected_region]
 
     stackbarchart_df = stackbarchart_df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
@@ -162,7 +168,7 @@ def update_figure(selected_region):
     data_stackbarchart = [trace1_stackbarchart, trace2_stackbarchart, trace3_stackbarchart, trace4_stackbarchart,
                           trace5_stackbarchart, trace6_stackbarchart]
 
-    return {'data': data_stackbarchart, 'layout': go.Layout(title='Happiness Scores in ' + selected_region,
+    return {'data': data_stackbarchart, 'layout': go.Layout(title='Happiness Scores in ' + selected_region + " in year " + str(selected_year),
                                                             xaxis={'title': 'Country'},
                                                             yaxis={'title': 'Happiness Overall'},
                                                             barmode='stack')}
