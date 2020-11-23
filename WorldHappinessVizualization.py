@@ -119,7 +119,8 @@ app.layout = html.Div(children=[
 
 # Call Back to change the Stacked Bar Chart
 @app.callback(Output('graph1', 'figure'),
-              [Input('select-region', "value")])
+              [Input('select-region', "value"),
+               Input('years-slider', "value")])
 def update_figure(selected_region):
     stackbarchart_df = df1[df1['Region'] == selected_region]
 
@@ -187,7 +188,7 @@ def update_Choropleth(selected_year):
 
     # Changes the layout of the Choropleth
     fig.update_layout(
-        title_text=selected_year + ' World Happiness',
+        title_text= str(selected_year) + ' World Happiness',
         geo=dict(
             showframe=False,
             showcoastlines=False,
