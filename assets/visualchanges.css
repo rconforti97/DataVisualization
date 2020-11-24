@@ -1,0 +1,45 @@
+
+/* Changing the Slider Colors line 3 - line 22*/
+.rc-slider-handle{
+  border: solid 2px #FF8700;
+}
+.rc-slider-handle:active {
+  border-color: #696969;
+  box-shadow: 0 0 1px #FF8700;
+}
+.rc-slider-handle:hover {
+  border-color: #FF8700;
+}
+.rc-slider-handle:focus {
+  border-color: #FF8700;
+  box-shadow: 0 0 0 1px #FF8700;
+}
+.rc-slider-track {
+  background-color: #FF8700;
+}
+.rc-slider-dot-active {
+  border-color: #FF8700;
+}
+
+/* Chaning the website background BUT not the graph backgrounds */
+body {
+  background-color: #202020;
+  }
+  
+/*  What is controlling the drop down menu background.
+*/
+.Select-control {
+  background-color: rgb(25, 25, 25) !important;
+  
+}
+
+/*  What is controlling the drop down menu background.
+*/
+.Select-menu-outer {
+  background-color: rgb(25, 25, 25);
+}
+
+/* Chaning the text color in the drop down box */
+.has-value.Select--single>.Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label {
+  color: #FFFFFF;
+}

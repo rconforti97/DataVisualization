@@ -12,40 +12,7 @@ fig = go.Figure()
 # Load CSV file from Datasets folder
 df1 = pd.read_csv('2018.csv')
 
-# Choropleth
-fig = go.Figure(data=go.Choropleth(
-    locationmode='country names',
-    locations=df1['Country'],
-    z=df1['Score'],
-    text=df1['Country'],
-    colorscale='sunset',
-    autocolorscale=False,
-    reversescale=True,
-    marker_line_color='darkgray',
-    marker_line_width=0.5,
-    colorbar_title='Happiness Score',
-))
-# Choropleth
-
-fig.update_layout(
-    title_text='2018 World Happiness',
-    geo=dict(
-        showframe=False,
-        showcoastlines=False,
-        projection_type='equirectangular'
-    ),
-    annotations=[dict(
-        x=0.55,
-        y=0.1,
-        xref='paper',
-        yref='paper',
-        text='Source: <a href="https://www.cia.gov/library/publications/the-world-factbook/fields/2195.html">\
-            CIA World Factbook</a>',
-        showarrow=False
-    )]
-)
-app = dash.Dash()
-
+app = dash.Dash(__name__)
 
 YEARS = [2018, 2019]
 # Layout of the Dashboard
@@ -58,30 +25,30 @@ app.layout = html.Div(children=[
             }
             ),
     # Title of the Website at the top
-    html.Div('Web dashboard for Data Visualization of World Happiness', style={'textAlign': 'center',   'font-family': 'Courier New'}),
+    html.Div('Web dashboard for Data Visualization of World Happiness', style={'color': '#FFFFFF','textAlign': 'center',   'font-family': 'Courier New'}),
     # Subtitle at the top
-    html.Div('World Happiness Based by Region', style={'textAlign': 'center', 'font-family': 'Courier New'}),
+    html.Div('World Happiness Based by Region', style={'color': '#FFFFFF','textAlign': 'center', 'font-family': 'Courier New'}),
     html.Br(),
     html.Br(),
-    html.Hr(style={'border-top': 'dashed #C70039'}),
+    # html.Hr(style={'border-top': 'dashed #C70039'}),
 
     # Having the Cholorpleth show on the dash board
-    html.H3('Cloropleth Chart', style= {'font-family': 'Courier New'}),
-    html.Div('This shows a world overview of happiness scores', style= {'font-family': 'Courier New'}),
+    html.H3('Cloropleth Chart', style= {'color': '#FFFFFF', 'font-family': 'Courier New'}),
+    html.Div('This shows a world overview of happiness scores', style= {'color': '#FFFFFF','font-family': 'Courier New'}),
     dcc.Graph(id="Choropleth", figure=fig),
 
     # Start of Interactive Bar Chart Start
-    html.H3('Interactive Bar chart', style= {'font-family': 'Courier New'}),
+    html.H3('Interactive Bar chart', style= {'color': '#FFFFFF', 'font-family': 'Courier New'}),
     html.Div('This bar chart represent the reported world happiness by region and year as well as '
-             'what contributed to the score', style= {'font-family': 'Courier New'}),
+             'what contributed to the score', style= {'color': '#FFFFFF', 'font-family': 'Courier New'}),
     # Creating the Interactive Bar Chart onto the dash board
-    dcc.Graph(id='graph1', style={'background': '#544F4F'}),
+    dcc.Graph(id='graph1'),
     # Drop down box title
-    html.Div('Please select a region', style={'color': '#000000', 'margin': '10px', 'font-family': 'Courier New'}),
+    html.Div('Please select a region', style={'color': '#FFFFFF', 'margin': '10px', 'font-family': 'Courier New'}),
     # Dropdown Menu for Stacked Bar Chart
     dcc.Dropdown(
-        style= {'font-family': 'Courier New'},
         id='select-region',
+        style={'color': '#FFFFFF', 'font-family': 'Courier New'},
         options=[
             {'label': 'Australia and New Zealand', 'value': 'Australia and New Zealand'},
             {'label': 'Central and Eastern Europe', 'value': 'Central and Eastern Europe'},
@@ -104,7 +71,7 @@ app.layout = html.Div(children=[
                 id="slider-container",
                 children=[
                     html.P(
-                        style= {'font-family': 'Courier New'},
+                        style= {'color': '#FFFFFF', 'font-family': 'Courier New'},
                         id="slider-text",
                         children="Drag the slider to change the year:",
                     ),
@@ -117,7 +84,7 @@ app.layout = html.Div(children=[
                         marks={
                             str(year): {
                                 "label": str(year),
-                                "style": {"color": "#000000"},
+                                "style": {"color": "#FFFFFF"},
                             }
                             for year in YEARS
                         },
@@ -135,6 +102,7 @@ app.layout = html.Div(children=[
               [Input('select-region', "value"),
                Input('years-slider', "value")])
 def update_figure(selected_region, selected_year):
+
     if selected_year == 2018:
         new_df = pd.read_csv('2018.csv')
     else:
@@ -176,7 +144,11 @@ def update_figure(selected_region, selected_year):
     return {'data': data_stackbarchart, 'layout': go.Layout(title='Happiness Scores in ' + selected_region + " in year " + str(selected_year),
                                                             xaxis={'title': 'Country'},
                                                             yaxis={'title': 'Happiness Overall'},
-                                                            barmode='stack')}
+                                                            barmode='stack',
+                                                            # Changing the barchart background and text
+                                                            font=dict(color='#FFFFFF'),
+                                                            paper_bgcolor='#202020',
+                                                            plot_bgcolor='#202020')}
 
 
 # This is to update the choropleth
@@ -198,15 +170,21 @@ def update_Choropleth(selected_year):
         colorscale='sunset',
         autocolorscale=False,
         reversescale=True,
-        marker_line_color='darkgray',
+        marker_line_color='white',
         marker_line_width=0.5,
         colorbar_title='Happiness Score',
-    ))
+    ),  # Changing the background behind the chloropleth
+        layout=go.Layout(paper_bgcolor='#202020',plot_bgcolor='#202020',))
 
     # Changes the layout of the Choropleth
     fig.update_layout(
         title_text= str(selected_year) + ' World Happiness',
+        # Changing the text to white
+        font=dict(color ='#FFFFFF'),
+        # Change the actual graph color
         geo=dict(
+            bgcolor='#202020',
+            landcolor='#202020',
             showframe=False,
             showcoastlines=False,
             projection_type='equirectangular'
