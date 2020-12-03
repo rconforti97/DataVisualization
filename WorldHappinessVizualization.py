@@ -9,9 +9,29 @@ from plotly.subplots import make_subplots
 fig = go.Figure()
 
 # Load CSV file from Datasets folder
-df1 = pd.read_csv('2018.csv')
+# df = pd.read_csv('2015.csv')
+# df2 = pd.read_csv('2016.csv')
+# df3 = pd.read_csv('2017.csv')
+df4 = pd.read_csv('2018.csv')
+df5 = pd.read_csv('2019.csv')
 
 app = dash.Dash(__name__)
+
+# Adding the multiline chart - Beginning
+# multiline_df = df
+# multiline_df2 = df2
+# multiline_df3 = df3
+multiline_df4 = df4
+multiline_df5 = df5
+
+# trace1_multiline = go.Scatter(x=multiline_df['Country'], y=multiline_df['Score'], mode='markers', name='2015')
+# trace2_multiline = go.Scatter(x=multiline_df2['Country'], y=multiline_df2['Score'], mode='markers', name='2016')
+# trace3_multiline = go.Scatter(x=multiline_df3['Country'], y=multiline_df3['Score'], mode='markers', name='2017')
+trace4_multiline = go.Scatter(x=multiline_df4['Country'], y=multiline_df4['Score'], mode='markers', name='2018', marker={'color': '#FF8700'})
+trace5_multiline = go.Scatter(x=multiline_df5['Country'], y=multiline_df5['Score'], mode='markers', name='2019', marker={'color': '#D53C00'})
+
+data_multiline = [trace4_multiline, trace5_multiline]
+# Multi line chart ending
 
 YEARS = [2018, 2019]
 # Layout of the Dashboard
@@ -59,7 +79,7 @@ app.layout = html.Div(children=[
             {'label': 'Western Europe', 'value': 'Western Europe'}
         ],
         value='Central and Eastern Europe'
-    ),
+    ), #end of the dropdown menu
     # Slider
     html.Div(
         id="left-column",
@@ -90,6 +110,20 @@ app.layout = html.Div(children=[
             ),
         ],
     ),
+    # End of the slider
+
+    # So that the multiline actually shows up in the graph
+    html.H3('Multi Line chart', style={'color': '#FFFFFF'}),
+    dcc.Graph(id='graph3',
+              figure={
+                  'data': data_multiline,
+                  'layout': go.Layout(
+                      title='Comparison of the Happiness by Year - Top 80 Countries',
+                      xaxis={'title': 'Country'}, yaxis={'title': 'Happiness Score'},  paper_bgcolor='#202020',
+                      plot_bgcolor='#202020', font=dict(color='#FFFFFF'))
+              }
+              )
+    # End of the multiline
 
 ])
 
