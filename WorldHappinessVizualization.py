@@ -9,31 +9,31 @@ from plotly.subplots import make_subplots
 fig = go.Figure()
 
 # Load CSV file from Datasets folder
-# df = pd.read_csv('2015.csv')
-# df2 = pd.read_csv('2016.csv')
-# df3 = pd.read_csv('2017.csv')
+df = pd.read_csv('2015.csv')
+df2 = pd.read_csv('2016.csv')
+df3 = pd.read_csv('2017.csv')
 df4 = pd.read_csv('2018.csv')
 df5 = pd.read_csv('2019.csv')
 
 app = dash.Dash(__name__)
 
 # Adding the multiline chart - Beginning
-# multiline_df = df
-# multiline_df2 = df2
-# multiline_df3 = df3
+multiline_df = df
+multiline_df2 = df2
+multiline_df3 = df3
 multiline_df4 = df4
 multiline_df5 = df5
 
-# trace1_multiline = go.Scatter(x=multiline_df['Country'], y=multiline_df['Score'], mode='markers', name='2015')
-# trace2_multiline = go.Scatter(x=multiline_df2['Country'], y=multiline_df2['Score'], mode='markers', name='2016')
-# trace3_multiline = go.Scatter(x=multiline_df3['Country'], y=multiline_df3['Score'], mode='markers', name='2017')
-trace4_multiline = go.Scatter(x=multiline_df4['Country'], y=multiline_df4['Score'], mode='markers', name='2018', marker={'color': '#FF8700'})
-trace5_multiline = go.Scatter(x=multiline_df5['Country'], y=multiline_df5['Score'], mode='markers', name='2019', marker={'color': '#D53C00'})
+trace1_multiline = go.Scatter(x=multiline_df['Country'], y=multiline_df['Score'], mode='markers', name='2015', marker={'color': '#7B0000'})
+trace2_multiline = go.Scatter(x=multiline_df2['Country'], y=multiline_df2['Score'], mode='markers', name='2016', marker={'color': '#D53C00'})
+trace3_multiline = go.Scatter(x=multiline_df3['Country'], y=multiline_df3['Score'], mode='markers', name='2017', marker={'color': '#FF8700'})
+trace4_multiline = go.Scatter(x=multiline_df4['Country'], y=multiline_df4['Score'], mode='markers', name='2018', marker={'color': '#F5BD1F'})
+trace5_multiline = go.Scatter(x=multiline_df5['Country'], y=multiline_df5['Score'], mode='markers', name='2019', marker={'color': '#EDFF74'})
 
-data_multiline = [trace4_multiline, trace5_multiline]
+data_multiline = [trace1_multiline, trace2_multiline, trace3_multiline, trace4_multiline, trace5_multiline]
 # Multi line chart ending
 
-YEARS = [2018, 2019]
+YEARS = [2015, 2016, 2017, 2018, 2019]
 # Layout of the Dashboard
 app.layout = html.Div(children=[
     html.H1(children='World Happiness Dash',
@@ -133,7 +133,13 @@ app.layout = html.Div(children=[
               [Input('select-region', "value"),
                Input('years-slider', "value")])
 def update_figure(selected_region, selected_year):
-    if selected_year == 2018:
+    if selected_year == 2015:
+        new_df = pd.read_csv('2015.csv')
+    elif selected_year == 2016:
+        new_df = pd.read_csv('2016.csv')
+    elif selected_year == 2017:
+        new_df = pd.read_csv('2017.csv')
+    elif selected_year == 2018:
         new_df = pd.read_csv('2018.csv')
     else:
         new_df = pd.read_csv('2019.csv')
@@ -187,7 +193,13 @@ def update_figure(selected_region, selected_year):
               [Input('years-slider', "value")])
 def update_Choropleth(selected_year):
     # Adjusts the DF for the data
-    if selected_year == 2018:
+    if selected_year == 2015:
+        new_df = pd.read_csv('2015.csv')
+    elif selected_year == 2016:
+        new_df = pd.read_csv('2016.csv')
+    elif selected_year == 2017:
+        new_df = pd.read_csv('2017.csv')
+    elif selected_year == 2018:
         new_df = pd.read_csv('2018.csv')
     else:
         new_df = pd.read_csv('2019.csv')
